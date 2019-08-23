@@ -1,3 +1,3 @@
 # ocaml-ps
 
- Problem solving with OCaml!
+ [Problem solving](https://www.acmicpc.net/) with OCaml!
