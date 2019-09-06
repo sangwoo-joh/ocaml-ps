@@ -27,14 +27,14 @@ let construct_tree node_info =
 let read_input total () =
   let node_info = Array.make 26 (' ', ' ') in
   for i = 0 to total - 1 do
-    Scanf.scanf "%c %c %c\n" (fun root left right ->
+    Scanf.scanf " %c %c %c" (fun root left right ->
         node_info.(to_idx root) <- (left, right) )
   done ;
   node_info
 
 let solve () =
   let visit c = print_char c in
-  Scanf.scanf "%d\n" (fun total ->
+  Scanf.scanf "%d" (fun total ->
       let node_info = read_input total () in
       let tree = construct_tree node_info in
       traverse ~order:Preorder ~visit tree ;
