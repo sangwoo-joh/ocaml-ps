@@ -8,26 +8,16 @@ module Node = struct
   let equal = Stdlib.( = )
 
   let hash = Hashtbl.hash
-
-  let pp fmt n = F.fprintf fmt "(%d)" n
 end
 
 module NodeMap = struct
   include Map.Make (Node)
-
-  let pp ~pp_value fmt m =
-    let pp_item fmt (k, v) = F.fprintf fmt "%a -> {%a}" Node.pp k pp_value v in
-    iter (fun k v -> F.fprintf fmt "@[%a@]@." pp_item (k, v)) m
 
   let find_and_raise k m s = try find k m with Not_found -> invalid_arg s
 end
 
 module NodeSet = struct
   include Set.Make (Node)
-
-  let pp fmt s =
-    let pp_aux fmt elt = F.fprintf fmt "%a," Node.pp elt in
-    iter (pp_aux fmt) s
 end
 
 module Digraph = struct
@@ -39,8 +29,6 @@ module Digraph = struct
   type vertex = M.key
 
   type edge = vertex * vertex
-
-  let pp = M.pp ~pp_value:S.pp
 
   let empty : t = NodeMap.empty
 
