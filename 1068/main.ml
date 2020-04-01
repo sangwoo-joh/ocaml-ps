@@ -1,5 +1,3 @@
-module F = Format
-
 module Node = struct
   type t = int
 
@@ -10,15 +8,8 @@ module Node = struct
   let hash = Hashtbl.hash
 end
 
-module NodeMap = struct
-  include Map.Make (Node)
-
-  let find_and_raise k m s = try find k m with Not_found -> invalid_arg s
-end
-
-module NodeSet = struct
-  include Set.Make (Node)
-end
+module NodeMap = Map.Make (Node)
+module NodeSet = Set.Make (Node)
 
 module Digraph = struct
   module S = NodeSet
@@ -52,11 +43,11 @@ module Digraph = struct
 
 
   let is_leaf g v =
-    let succ = M.find_and_raise v g "[is_leaf]" in
+    let succ = M.find v g in
     S.is_empty succ
 
 
-  let iter_succ ~f g v = S.iter f (M.find_and_raise v g "[iter_succ]")
+  let iter_succ g ~f ~src = S.iter f (M.find src g)
 end
 
 module Dfs (G : module type of Digraph) = struct
@@ -71,7 +62,7 @@ module Dfs (G : module type of Digraph) = struct
       else
         let visit = Stack.pop frontier in
         let acc = f visit acc in
-        G.iter_succ ~f:push g visit ; loop acc
+        G.iter_succ g ~f:push ~src:visit ; loop acc
     in
     push root ; loop init
 end
@@ -81,27 +72,30 @@ type graph = {g: Digraph.t ref; root: Node.t ref}
 let empty = {g= ref Digraph.empty; root= ref (-1)}
 
 let count_leaves {g; root} =
-  if not (Digraph.mem_vertex !g !root) then 0
-  else
+  if Digraph.mem_vertex !g !root then
     let module DFS = Dfs (Digraph) in
     DFS.fold
       ~f:(fun node acc -> if Digraph.is_leaf !g node then succ acc else acc)
       ~init:0 ~g:!g ~root:!root
+  else 0
+
+
+let build_digraph total {g; root} =
+  for i = 0 to total - 1 do
+    Scanf.scanf "%d " (fun parent ->
+        if parent = -1 then (
+          root := i ;
+          g := Digraph.add_vertex !g i )
+        else g := Digraph.add_edge !g parent i)
+  done
 
 
 let solve () =
   let ({g; root} as graph) = empty in
-  Scanf.scanf "%d " (fun total ->
-      for i = 0 to total - 1 do
-        Scanf.scanf "%d " (fun parent ->
-            if parent = -1 then (
-              root := i ;
-              g := Digraph.add_vertex !g i )
-            else g := Digraph.add_edge !g parent i)
-      done) ;
-  Scanf.scanf "%d" (fun rm -> g := Digraph.remove_vertex !g rm) ;
+  Scanf.scanf "%d " (fun total -> build_digraph total graph) ;
+  Scanf.scanf "%d " (fun rm -> g := Digraph.remove_vertex !g rm) ;
   let answer = count_leaves graph in
-  F.printf "%d\n" answer
+  Format.printf "%d\n" answer
 
 
 let () = solve ()
