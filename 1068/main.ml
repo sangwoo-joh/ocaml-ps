@@ -26,7 +26,7 @@ module Digraph = struct
 
   type t = S.t M.t
 
-  let empty : t = NodeMap.empty
+  let empty : t = M.empty
 
   let mem_vertex g v = M.mem v g
 
@@ -52,10 +52,8 @@ module Digraph = struct
 
 
   let is_leaf g v =
-    if M.mem v g then
-      let succ = M.find_and_raise v g "[is_leaf]" in
-      S.is_empty succ
-    else true
+    let succ = M.find_and_raise v g "[is_leaf]" in
+    S.is_empty succ
 
 
   let iter_succ ~f g v = S.iter f (M.find_and_raise v g "[iter_succ]")
@@ -65,15 +63,15 @@ module Dfs (G : module type of Digraph) = struct
   module H = Hashtbl.Make (Node)
 
   let fold ~f ~init ~g ~root =
-    let explored = H.create 97 in
+    let explored = H.create 50 in
     let frontier = Stack.create () in
     let push v = if not (H.mem explored v) then (H.add explored v () ; Stack.push v frontier) in
     let rec loop acc =
-      if not (Stack.is_empty frontier) then (
+      if Stack.is_empty frontier then acc
+      else
         let visit = Stack.pop frontier in
         let acc = f visit acc in
-        G.iter_succ ~f:push g visit ; loop acc )
-      else acc
+        G.iter_succ ~f:push g visit ; loop acc
     in
     push root ; loop init
 end
