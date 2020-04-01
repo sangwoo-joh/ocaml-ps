@@ -49,17 +49,20 @@ module Digraph = struct
       let g = add_vertex g v2 in
       unsafe_add_edge g v1 v2
 
+
   let remove_vertex g v =
     if M.mem v g then
       let g = M.remove v g in
       M.fold (fun k s -> M.add k (S.remove v s)) g empty
     else g
 
+
   let is_leaf g v =
     if M.mem v g then
       let succ = M.find_and_raise v g "[is_leaf]" in
       S.is_empty succ
     else true
+
 
   let iter_succ f g v = S.iter f (M.find_and_raise v g "[iter_succ]")
 
@@ -72,10 +75,7 @@ module Dfs (G : module type of Digraph) = struct
   let fold ~f ~init ~g ~root =
     let explored = H.create 97 in
     let frontier = Stack.create () in
-    let push v =
-      if not (H.mem explored v) then (
-        H.add explored v () ; Stack.push v frontier )
-    in
+    let push v = if not (H.mem explored v) then (H.add explored v () ; Stack.push v frontier) in
     let rec loop acc =
       if not (Stack.is_empty frontier) then (
         let visit = Stack.pop frontier in
@@ -98,6 +98,7 @@ let count_leaves {g; root} =
       ~f:(fun node acc -> if Digraph.is_leaf !g node then succ acc else acc)
       ~init:0 ~g:!g ~root:!root
 
+
 let solve () =
   let ({g; root} as graph) = empty in
   Scanf.scanf "%d " (fun total ->
@@ -111,5 +112,6 @@ let solve () =
   Scanf.scanf "%d" (fun rm -> g := Digraph.remove_vertex !g rm) ;
   let answer = count_leaves graph in
   F.printf "%d\n" answer
+
 
 let () = solve ()
