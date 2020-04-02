@@ -56,15 +56,21 @@ module Dfs (G : module type of Digraph) = struct
   let fold ~f ~init ~g ~root =
     let explored = H.create 50 in
     let frontier = Stack.create () in
-    let push v = if not (H.mem explored v) then (H.add explored v () ; Stack.push v frontier) in
+    let push v =
+      if not (H.mem explored v) then (
+        H.add explored v () ;
+        Stack.push v frontier )
+    in
     let rec loop acc =
       if Stack.is_empty frontier then acc
       else
         let visit = Stack.pop frontier in
         let acc = f visit acc in
-        G.iter_succ g ~f:push ~src:visit ; loop acc
+        G.iter_succ g ~f:push ~src:visit ;
+        loop acc
     in
-    push root ; loop init
+    push root ;
+    loop init
 end
 
 type graph = {g: Digraph.t ref; root: Node.t ref}
