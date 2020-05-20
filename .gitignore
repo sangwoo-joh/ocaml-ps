@@ -304,4 +304,4 @@ TSWLatexianTemp*
 # Makeindex log files
 *.lpz
 
-sol-*
+*.bc
