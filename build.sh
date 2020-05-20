@@ -16,7 +16,7 @@ EOF
 
 function clean
 {
-  rm *.bc *.cm* 2>/dev/null
+  rm ./*.bc ./src/*.cm* 2>/dev/null
 }
 
 PNUM=
@@ -35,8 +35,8 @@ do
       exit 0
       ;;
     show)
-      for s in `ls src/*.ml | sort -t p -k 2 -n`; do
-        printf $s | cut -c 6- | cut -d '.' -f 1
+      for f in $(find src -name "*.ml" | sort -t p -k 2 -n); do
+        printf "%s" "$f" | cut -c 6- | cut -d '.' -f 1
       done
       exit 0
       ;;
