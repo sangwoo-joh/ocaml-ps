@@ -46,7 +46,7 @@ done
 
 echo "Build $PNUM"
 
-if [ ! -e p"$PNUM".ml ]; then
+if [ ! -e src/p"$PNUM".ml ]; then
   if [ "$PNUM" -lt 1000 ]; then
     echo "Invalid problem number. (< 1000)"
     exit 1
@@ -58,7 +58,7 @@ if [ ! -e p"$PNUM".ml ]; then
 fi
 
 # build command: https://www.acmicpc.net/help/language
-ocamlc -o "$PNUM".bc p"$PNUM".ml
-rm *.cm* 2>/dev/null
+ocamlc -o "$PNUM".bc src/p"$PNUM".ml
+rm src/*.cm* 2>/dev/null
 
 echo "Checkout $PNUM.bc"
