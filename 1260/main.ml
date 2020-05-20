@@ -8,24 +8,14 @@ module Node = struct
   let hash = Hashtbl.hash
 
   let print t = Format.printf "%d " t
-
-  let pp fmt n = Format.fprintf fmt "[%d]" n
 end
 
 module NodeTbl = struct
   include Hashtbl.Make (Node)
-
-  let pp ~pp_value fmt m =
-    let pp_item fmt (k, v) = Format.fprintf fmt "%a -> {%a}@." Node.pp k pp_value v in
-    iter (fun k v -> Format.fprintf fmt "@[%a@]@." pp_item (k, v)) m
 end
 
 module NodeSet = struct
   include Set.Make (Node)
-
-  let pp fmt s =
-    let pp_elt fmt e = Format.fprintf fmt "%a, @," Node.pp e in
-    iter (fun elt -> Format.fprintf fmt "@[%a@]" pp_elt elt) s
 end
 
 module Bigraph = struct
@@ -33,8 +23,6 @@ module Bigraph = struct
   module H = NodeTbl
 
   type t = S.t H.t
-
-  let pp = H.pp ~pp_value:S.pp
 
   let empty : t = H.create 1000
 
@@ -44,7 +32,7 @@ module Bigraph = struct
 
   let add_vertex g v = if mem_vertex g v then () else H.add g v S.empty
 
-  let unsafe_add_edge g v1 v2 = H.add g v1 (S.add v2 (H.find g v1))
+  let unsafe_add_edge g v1 v2 = H.replace g v1 (S.add v2 (H.find g v1))
 
   let add_edge g v1 v2 =
     if mem_edge g v1 v2 then ()
@@ -59,7 +47,7 @@ module Bigraph = struct
 end
 
 module Dfs (G : module type of Bigraph) = struct
-  module H = Hashtbl.Make (Node)
+  module H = Hashtbl
 
   let iter ~f ~g ~root =
     let explored = H.create 2048 in
@@ -73,7 +61,7 @@ module Dfs (G : module type of Bigraph) = struct
 end
 
 module Bfs (G : module type of Bigraph) = struct
-  module H = Hashtbl.Make (Node)
+  module H = Hashtbl
 
   let iter ~f ~g ~root =
     let explored = H.create 2048 in

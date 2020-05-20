@@ -2,10 +2,6 @@ module Node = struct
   type t = int
 
   let compare = Stdlib.compare
-
-  let equal = Stdlib.( = )
-
-  let hash = Hashtbl.hash
 end
 
 module NodeMap = Map.Make (Node)
@@ -23,7 +19,7 @@ module Digraph = struct
 
   let mem_edge g v1 v2 = try S.mem v2 (M.find v1 g) with Not_found -> false
 
-  let add_vertex g v = if M.mem v g then g else M.add v S.empty g
+  let add_vertex g v = if mem_vertex g v then g else M.add v S.empty g
 
   let unsafe_add_edge g v1 v2 = M.add v1 (S.add v2 (M.find v1 g)) g
 
@@ -36,22 +32,19 @@ module Digraph = struct
 
 
   let remove_vertex g v =
-    if M.mem v g then
+    if mem_vertex g v then
       let g = M.remove v g in
       M.fold (fun k s -> M.add k (S.remove v s)) g empty
     else g
 
 
-  let is_leaf g v =
-    let succ = M.find v g in
-    S.is_empty succ
+  let is_leaf g v = try S.is_empty (M.find v g) with Not_found -> false
 
-
-  let iter_succ g ~f ~src = S.iter f (M.find src g)
+  let iter_succ g ~f ~src = try S.iter f (M.find src g) with Not_found -> ()
 end
 
 module Dfs (G : module type of Digraph) = struct
-  module H = Hashtbl.Make (Node)
+  module H = Hashtbl
 
   let fold ~f ~init ~g ~root =
     let explored = H.create 50 in
