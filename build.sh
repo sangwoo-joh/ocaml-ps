@@ -9,6 +9,7 @@ Usage: $_ [option]
 Options
   help            Show this message
   PROBLEM_NUMBER  Build PROBLEM_NUMBER.ml as sol-PROBLEM_NUMBER
+  show            Show solved list
   clean           Clean directory
 EOF
 }
@@ -31,6 +32,12 @@ do
       ;;
     clean)
       clean
+      exit 0
+      ;;
+    show)
+      for s in `ls src/*.ml | sort -t p -k 2 -n`; do
+        printf $s | cut -c 6- | cut -d '.' -f 1
+      done
       exit 0
       ;;
     [0-9]*)
