@@ -4,6 +4,7 @@ let reverse str =
   String.iteri (fun idx c -> Bytes.set res (len - idx - 1) c) str ;
   Bytes.to_string res
 
+
 let solve () =
   let input = read_line () in
   let nums =
@@ -11,5 +12,6 @@ let solve () =
   in
   let answer = List.fold_left max 0 nums in
   print_int answer
+
 
 let () = solve ()

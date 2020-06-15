@@ -8,9 +8,19 @@ let rec traverse ~order ~visit tree =
   | Nil -> ()
   | Node (left, value, right) -> (
     match order with
-    | Preorder -> visit value ; traverse' left ; traverse' right
-    | Inorder -> traverse' left ; visit value ; traverse' right
-    | Postorder -> traverse' left ; traverse' right ; visit value )
+    | Preorder ->
+        visit value ;
+        traverse' left ;
+        traverse' right
+    | Inorder ->
+        traverse' left ;
+        visit value ;
+        traverse' right
+    | Postorder ->
+        traverse' left ;
+        traverse' right ;
+        visit value )
+
 
 let to_idx ch = int_of_char ch - int_of_char 'A'
 
@@ -24,13 +34,15 @@ let construct_tree node_info =
   in
   construct 'A'
 
+
 let read_input total () =
   let node_info = Array.make 26 (' ', ' ') in
   for i = 0 to total - 1 do
     Scanf.scanf " %c %c %c" (fun root left right ->
-        node_info.(to_idx root) <- (left, right) )
+        node_info.(to_idx root) <- (left, right))
   done ;
   node_info
+
 
 let solve () =
   let visit c = print_char c in
@@ -42,6 +54,7 @@ let solve () =
       traverse ~order:Inorder ~visit tree ;
       print_newline () ;
       traverse ~order:Postorder ~visit tree ;
-      print_newline () )
+      print_newline ())
+
 
 let () = solve ()

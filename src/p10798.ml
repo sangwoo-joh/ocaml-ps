@@ -6,8 +6,11 @@ let solve () =
   let inputs = List.rev !inputs in
   let cur = ref 0 in
   while !cur < 15 do
-    List.iter (fun w -> if !cur < String.length w then print_char w.[!cur]) inputs ;
+    List.iter
+      (fun w -> if !cur < String.length w then print_char w.[!cur])
+      inputs ;
     incr cur
   done
+
 
 let () = solve ()

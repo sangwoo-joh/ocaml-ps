@@ -4,4 +4,5 @@ let rec put n =
     Printf.printf "%d\n" n ;
     put (n - 1) )
 
+
 let () = Scanf.scanf "%d" (fun n -> put n)

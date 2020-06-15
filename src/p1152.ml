@@ -5,8 +5,10 @@ let count_words str =
   String.iter count_space str ;
   if String.length str = 0 then 0 else !spaces + 1
 
+
 let solve () =
   let input = read_line () in
   print_int (count_words input)
+
 
 let () = solve ()

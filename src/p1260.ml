@@ -96,7 +96,8 @@ let build_digraph num_v num_e root_id {g; root} =
 
 let solve () =
   let ({g; root} as graph) = empty in
-  Scanf.scanf "%d %d %d\n" (fun num_v num_e root_id -> build_digraph num_v num_e root_id graph) ;
+  Scanf.scanf "%d %d %d\n" (fun num_v num_e root_id ->
+      build_digraph num_v num_e root_id graph) ;
   (* Format.printf "@[%a@]@." Bigraph.pp !g ; *)
   let module DFS = Dfs (Bigraph) in
   let module BFS = Bfs (Bigraph) in
