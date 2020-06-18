@@ -16,7 +16,7 @@ EOF
 
 function clean
 {
-  rm ./*.bc ./src/*.cm* 2>/dev/null
+  rm ./*.bc ./src/*.cm* ./src/*.o 2>/dev/null
 }
 
 PNUM=
@@ -66,6 +66,6 @@ fi
 
 # build command: https://www.acmicpc.net/help/language
 ocamlc -o "$PNUM".bc src/p"$PNUM".ml
-rm src/*.cm* 2>/dev/null
+rm src/*.cm* src/*.o 2>/dev/null
 
 echo "Checkout $PNUM.bc"
