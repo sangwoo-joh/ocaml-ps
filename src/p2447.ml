@@ -1,4 +1,4 @@
-module F = Format
+module F = Printf
 
 let rec star y x n arr =
   if n = 1 then Bytes.set arr.(y) x '*'
@@ -13,8 +13,10 @@ let rec star y x n arr =
     done
 
 
-let () =
-  Scanf.scanf "%d" (fun n ->
-      let lines = Array.init n (fun _ -> Bytes.make n ' ') in
-      star 0 0 n lines;
-      Array.iter (fun line -> F.printf "%s\n" (Bytes.to_string line)) lines)
+let print_star n =
+  let lines = Array.init n (fun _ -> Bytes.make n ' ') in
+  star 0 0 n lines;
+  Array.iter (fun line -> F.printf "%s\n" (Bytes.to_string line)) lines
+
+
+let () = Scanf.scanf "%d" (fun n -> print_star n)
