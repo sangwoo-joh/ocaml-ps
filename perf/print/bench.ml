@@ -9,7 +9,7 @@ let float1 = 1882.8323
 let benches =
   Bench.make_command
     [
-      Bench.Test.create ~name:"print_string" (fun () ->
+      Bench.Test.create ~name:"print_*" (fun () ->
           print_string str1;
           print_char ' ';
           print_int int1;
