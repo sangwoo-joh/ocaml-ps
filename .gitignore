@@ -305,3 +305,5 @@ TSWLatexianTemp*
 *.lpz
 
 *.bc
+*.native
+*.tc
