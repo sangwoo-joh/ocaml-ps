@@ -16,7 +16,7 @@ EOF
 
 function clean
 {
-  rm ./*.bc ./src/*.cm* ./src/*.o 2>/dev/null
+  rm ./*.native ./*.bc ./src/*.cm* ./src/*.o 2>/dev/null
 }
 
 PNUM=
@@ -65,7 +65,7 @@ if [ ! -e src/p"$PNUM".ml ]; then
 fi
 
 # build command: https://www.acmicpc.net/help/language
-ocamlc -o "$PNUM".bc src/p"$PNUM".ml
+ocamlopt -o "$PNUM".native src/p"$PNUM".ml -O2
 rm src/*.cm* src/*.o 2>/dev/null
 
-echo "Checkout $PNUM.bc"
+echo "Checkout $PNUM.native"
