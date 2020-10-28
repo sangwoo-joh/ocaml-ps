@@ -12,9 +12,9 @@ let most_freq freq =
       freq FreqMap.empty
   in
   let _, max_elts = FreqMap.max_binding freq_map in
-  let num_max_freq = List.length max_elts in
-  if num_max_freq = 1 then List.hd max_elts
-  else List.nth (List.sort compare max_elts) 1
+  match List.sort compare max_elts with
+  | [] -> assert false
+  | [ n ] | _ :: n :: _ -> n
 
 
 let () =
@@ -32,10 +32,10 @@ let () =
             | Some f -> Hashtbl.replace freq n (f + 1))
       done;
       let average =
-        int_of_float
-          (Float.round
-             ( float_of_int (List.fold_left ( + ) 0 !numbers)
-             /. float_of_int total ))
+        (List.fold_left ( + ) 0 !numbers |> float_of_int)
+        /. (total |> float_of_int)
+        |> Float.round
+        |> int_of_float
       in
       let median = List.nth (List.sort compare !numbers) (total / 2) in
       let freq = most_freq freq in
