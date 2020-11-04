@@ -16,7 +16,7 @@ EOF
 
 function clean
 {
-  rm ./*.native ./*.bc ./src/*.cm* ./src/*.o 2>/dev/null
+  rm ./*.native ./*.bc ./*.tc ./src/*.cm* ./src/*.o 2>/dev/null
 }
 
 PNUM=
