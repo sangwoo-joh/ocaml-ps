@@ -27,18 +27,16 @@ let load () =
 let solve q p m =
   let open Document in
   let rec step q p m k =
-    match Queue.take_opt q with
-    | None -> k
-    | Some d ->
-        let max = find_max p in
-        if d.priority < max.priority then (
-          Queue.add d q;
-          step q p m k )
-        else (
-          (* print d *)
-          d.has_printed <- true;
-          let k' = succ k in
-          if d.id = m then k' else step q p m k' )
+    let d = Queue.take q in
+    let max = find_max p in
+    if d.priority < max.priority then (
+      Queue.add d q;
+      step q p m k )
+    else (
+      (* print d *)
+      d.has_printed <- true;
+      let k' = succ k in
+      if d.id = m then k' else step q p m k' )
   in
   step q p m 0
 
