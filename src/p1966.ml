@@ -6,11 +6,7 @@ module Document = struct
   let compare t1 t2 = Int.compare t2.priority t1.priority (* reverse order *)
 end
 
-let rec find_max p =
-  match p with
-  | [] -> assert false
-  | hd :: tl -> if Document.(hd.has_printed) then find_max tl else hd
-
+let find_max = List.find (fun d -> not Document.(d.has_printed))
 
 let load () =
   let q = Queue.create () in
