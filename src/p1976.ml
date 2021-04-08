@@ -76,5 +76,7 @@ let () =
       done)
     !plan;
 
-  if CityDisjointSet.length disjoint_set = 1 then Printf.printf "YES"
-  else Printf.printf "NO"
+  let answer =
+    if CityDisjointSet.length disjoint_set = 1 then "YES" else "NO"
+  in
+  Printf.printf "%s" answer
