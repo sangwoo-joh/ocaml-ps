@@ -1,4 +1,1 @@
-let-binding-spacing = sparse
-margin = 100
-break-infix = fit-or-vertical
-break-sequences = true
+profile = janestreet
