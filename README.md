@@ -2,7 +2,7 @@
 
  :camel: Problem solving with OCaml!
 
-## How to build
+## How to build BOJ
 ```bash
 cd boj
 dune build @p<problem-number>
