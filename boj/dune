@@ -44,7 +44,7 @@ let stanzas =
           pnum pnum pnum)
       solved
   in
-  String.concat "\n" s
+  (String.concat "\n" s ) ^ "(env (dev (flags (:standard -w -24))))"
 ;;
 
 Jbuild_plugin.V1.send stanzas
