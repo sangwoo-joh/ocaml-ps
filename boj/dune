@@ -1,0 +1,50 @@
+(* -*- tuareg -*- *)
+
+module String = struct
+  include String
+
+  (** [ends_with] is supported from 4.13.0 *)
+  let ends_with ~suffix s =
+    let len_s = length s and len_suf = length suffix in
+    let diff = len_s - len_suf in
+    let rec aux i =
+      if i = len_suf then true
+      else if unsafe_get s (diff + i) <> unsafe_get suffix i then false
+      else aux (i + 1)
+    in
+    diff >= 0 && aux 0
+end
+
+let filter fname = String.ends_with ~suffix:".ml" fname
+let cut fname = String.split_on_char '.' fname |> List.hd
+
+let join pnums =
+  List.fold_left (fun acc pnum -> acc ^ " " ^ pnum) "" pnums |> String.trim
+
+let solved =
+  Sys.readdir "."
+  |> Array.to_list
+  |> List.filter filter
+  |> List.map cut
+  |> List.sort String.compare
+
+let stanzas =
+  let s =
+    List.map
+      (fun pnum ->
+        Printf.sprintf
+          {|
+(rule
+  (alias %s)
+  (target %s)
+  (deps %s.ml)
+  (action (run %%{ocamlopt} -o %%{target} %%{deps}))
+  )
+|}
+          pnum pnum pnum)
+      solved
+  in
+  String.concat "\n" s
+;;
+
+Jbuild_plugin.V1.send stanzas
