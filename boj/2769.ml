@@ -151,24 +151,26 @@ let neg p = char '~' *> (p >>| neg_of)
             not > and > xor > or
    Boolean expression parser.
    EXPR := TERM0 or TERM0
-         | EXPR
+         | TERM0
+
    TERM0 := TERM1 xor TERM1
-       | TERM0
-   TERM1 := TERM2 and TERM2
-       | TERM1
-   TERM2 := FACTOR
+          | TERM1
+
+   TERM1 := FACTOR and FACTOR
+          | FACTOR
+
    FACTOR := VAR
-         | ( EXPR )
-         | not FACTOR
+           | ( EXPR )
+           | not FACTOR
 *)
 let expr ~occur : expr parser =
   fix (fun (expr : expr parser) ->
     let factor =
       fix (fun factor -> neg factor <|> parens expr <|> var ~occur)
     in
-    let term0 = chainl1 factor and_ in
-    let term1 = chainl1 term0 xor in
-    chainl1 term1 or_)
+    let term0 = chain factor and_ in
+    let term1 = chain term0 xor in
+    chain term1 or_)
 ;;
 
 let remove_blanks s =
