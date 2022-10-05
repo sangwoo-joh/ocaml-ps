@@ -27,32 +27,6 @@ let bind (p : 'a parser) (f : 'a -> 'b parser) : 'b parser =
 
 let ( >>= ) = bind
 
-let any_char : char parser =
-  { run =
-      (fun input ->
-        let n = String.length input in
-        try consume_input input 1 (n - 1), Ok (String.get input 0) with
-        | Invalid_argument _ -> input, Error "no char")
-  }
-;;
-
-let peek_char : char parser =
-  { run =
-      (fun input ->
-        try input, Ok (String.get input 0) with
-        | Invalid_argument _ -> input, Error "no char")
-  }
-;;
-
-let satisfy (f : char -> bool) : char parser =
-  peek_char >>= fun c -> if f c then any_char else fail "not satisfied"
-;;
-
-let char (c : char) : char parser = satisfy (fun x -> x = c)
-let lower : char parser = satisfy (fun x -> 'a' <= x && x <= 'z')
-let upper : char parser = satisfy (fun x -> 'A' <= x && x <= 'Z')
-let digit : char parser = satisfy (fun x -> '0' <= x && x <= '9')
-
 (** [p <|> q] runs [p] and returns the result if succeeds. If [p]
    fails then the input will be reset and [q] will run instead. *)
 let ( <|> ) (p1 : 'a parser) (p2 : 'a parser) : 'a parser =
@@ -95,6 +69,31 @@ let fix (f : 'a parser -> 'a parser) : 'a parser =
   r
 ;;
 
+let any_char : char parser =
+  { run =
+      (fun input ->
+        let n = String.length input in
+        try consume_input input 1 (n - 1), Ok (String.get input 0) with
+        | Invalid_argument _ -> input, Error "no char")
+  }
+;;
+
+let peek_char : char parser =
+  { run =
+      (fun input ->
+        try input, Ok (String.get input 0) with
+        | Invalid_argument _ -> input, Error "no char")
+  }
+;;
+
+let satisfy (f : char -> bool) : char parser =
+  peek_char >>= fun c -> if f c then any_char else fail "not satisfied"
+;;
+
+let char (c : char) : char parser = satisfy (fun x -> x = c)
+let lower : char parser = satisfy (fun x -> 'a' <= x && x <= 'z')
+let upper : char parser = satisfy (fun x -> 'A' <= x && x <= 'Z')
+let digit : char parser = satisfy (fun x -> '0' <= x && x <= '9')
 let pair p = lift2 (fun e1 e2 -> e1, e2) p p
 let parens p = char '(' *> p <* char ')'
 
