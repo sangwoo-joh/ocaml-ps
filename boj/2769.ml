@@ -97,9 +97,13 @@ let digit : char parser = satisfy (fun x -> '0' <= x && x <= '9')
 let pair p = lift2 (fun e1 e2 -> e1, e2) p p
 let parens p = char '(' *> p <* char ')'
 
-let chainl1 e op =
-  let rec go acc = lift2 (fun f x -> f acc x) op e >>= go <|> return acc in
-  e >>= fun init -> go init
+let chain expr op =
+  let rec further acc =
+    lift2 (fun constructor x -> constructor acc x) op expr
+    >>= further
+    <|> return acc
+  in
+  expr >>= fun init -> further init
 ;;
 
 (** Example of boolean expression *)
