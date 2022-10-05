@@ -177,7 +177,7 @@ let remove_blanks s =
   Seq.filter (fun c -> c <> ' ') (String.to_seq s) |> String.of_seq
 ;;
 
-let get_exprs s =
+let parse_exprs s =
   let occur = Hashtbl.create 26 in
   reset_id ();
   match (pair (expr ~occur)).run (remove_blanks s) with
@@ -212,7 +212,7 @@ let gen_cases n =
 ;;
 
 let solve s case =
-  let (e1, e2), total = get_exprs s in
+  let (e1, e2), total = parse_exprs s in
   let res = List.for_all (fun n -> check e1 e2 n) (gen_cases (1 lsl total)) in
   Printf.printf
     "Data set %d: %s\n"
