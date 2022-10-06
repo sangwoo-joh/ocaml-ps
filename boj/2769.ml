@@ -1,7 +1,8 @@
 type input = string
 
-let consume_input (input : input) (start : int) (len : int) : input =
-  String.sub input start len
+let consume (input : input) : input * char =
+  let n = String.length input in
+  String.sub input 1 (n - 1), String.get input 0
 ;;
 
 type 'a parser = { run : input -> input * ('a, string) result }
@@ -72,8 +73,10 @@ let fix (f : 'a parser -> 'a parser) : 'a parser =
 let any_char : char parser =
   { run =
       (fun input ->
-        let n = String.length input in
-        try consume_input input 1 (n - 1), Ok (String.get input 0) with
+        try
+          let input', char = consume input in
+          input', Ok char
+        with
         | Invalid_argument _ -> input, Error "no char")
   }
 ;;
