@@ -307,3 +307,5 @@ TSWLatexianTemp*
 *.bc
 *.native
 *.tc
+
+.DS_Store
