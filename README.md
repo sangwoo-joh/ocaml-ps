@@ -5,7 +5,8 @@
 ## How to build BOJ
 ```bash
 cd boj
-dune build @<problem-number>
+dune build <problem-number>
+dune exec ./<problem-number>
 ```
 
 
