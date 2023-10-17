@@ -57,6 +57,14 @@ Array.init size (fun idx -> ...)
 
  `make`랑 비슷한데 대신 `idx`에 따라 직접 원소의 초기값을 설정할 수 있게 해준다.
 
+ 참고로 인덱스랑 같은 값을 갖는 정수 배열을 초기화할 때는 `fun x -> x`를 넘겨주기
+ 보다는 다음과 같이 `Fun` 모듈의 `id` 함수를 쓰는게 좀더 효율적이다.
+
+```ocaml
+Array.init 5 Fun.id;;
+(* create [|0; 1; 2; 3; 4;] *)
+```
+
 ```ocaml
 Array.make_matrix dim_x dim_y x
 ```
@@ -81,3 +89,22 @@ arr.(idx) <- x
 ```
 
  랜덤 인덱스 값을 업데이트하는 연산이다. 역시 아래 표현은 신택스 슈거다.
+
+## Bisect
+
+```ocaml
+let bisect ?(left = true) arr x =
+  let low, high = 0, Array.length arr in
+  let rec loop low high =
+    if low >= high then low
+    else (
+      let mid = (low + high) / 2 in
+      if left then (
+        if x <= arr.(mid) then loop low mid else loop (mid + 1) high
+      ) else (
+        if x < arr.(mid) then loop low mid else loop (mid + 1) high
+      )
+    )
+  in
+  loop low high
+```
