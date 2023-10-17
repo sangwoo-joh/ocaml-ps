@@ -37,7 +37,7 @@ let input = Scanf.scanf "%d " (fun x -> x) ;;
 
  아래 코드와 의미적으로 동일하다:
 
-```c
+```cpp
 int x;
 scanf("%d ", &x);
 ```
