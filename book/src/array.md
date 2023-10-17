@@ -34,13 +34,13 @@ val fast_sort : ('a -> 'a -> int) -> 'a array -> unit
 ## 생성
 
 ```ocaml
-Array.make size init
+Array.make size x
 ```
 
- 모든 원소가 `init`인 `size` 크기의 배열을 만든다. 이때 모든 원소들은 `x` 와
- *물리적으로* 같다. 즉 OCaml의 `==` 관계를 갖고, 이는 곧 같은 메모리를 가리킨다는
- 의미이다. 그래서 `x`에 가변 데이터를 넣으면 배열의 모든 원소가 같은 메모리를
- 가리키게 되므로 사이드 이펙트에 주의해야 한다.
+ 모든 원소가 `x`인 `size` 크기의 배열을 만든다. 이때 모든 원소들은 `x` 와 *물리적으로*
+ 같다. 즉 OCaml의 `==` 관계를 갖고, 이는 곧 같은 메모리를 가리킨다는 의미이다.
+ 그래서 `x`에 가변 데이터를 넣으면 배열의 모든 원소가 같은 메모리를 가리키게
+ 되므로 사이드 이펙트에 주의해야 한다.
 
 
 ```ocaml
@@ -58,7 +58,7 @@ Array.init size (fun idx -> ...)
  `make`랑 비슷한데 대신 `idx`에 따라 직접 원소의 초기값을 설정할 수 있게 해준다.
 
 ```ocaml
-Array.make_matrix dim_x dim_y init
+Array.make_matrix dim_x dim_y x
 ```
 
  역시 `create_float`과 비슷한 이유로 2차원 배열 (행렬) 의 경우 효율적인 메모리
