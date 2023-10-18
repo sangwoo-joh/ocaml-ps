@@ -7,3 +7,4 @@ title = "OCaml Problem Solving"
 
 [output.html]
 mathjax-support = true
+google-analytics = "G-J0C68FHJ6L"
