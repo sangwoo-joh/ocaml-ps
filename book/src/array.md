@@ -89,22 +89,3 @@ arr.(idx) <- x
 ```
 
  랜덤 인덱스 값을 업데이트하는 연산이다. 역시 아래 표현은 신택스 슈거다.
-
-## Bisect
-
-```ocaml
-let bisect ?(left = true) arr x =
-  let low, high = 0, Array.length arr in
-  let rec loop low high =
-    if low >= high then low
-    else (
-      let mid = (low + high) / 2 in
-      if left then (
-        if x <= arr.(mid) then loop low mid else loop (mid + 1) high
-      ) else (
-        if x < arr.(mid) then loop low mid else loop (mid + 1) high
-      )
-    )
-  in
-  loop low high
-```

@@ -5,4 +5,5 @@
   * [Reading Inputs](input.md)
   * [Output](output.md)
   * [Array](array.md)
-
+* [Basic Algorithms](basic_algorithm.md)
+  * [Bisect](bisect.md)
