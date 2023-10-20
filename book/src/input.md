@@ -65,9 +65,7 @@ val read_line : unit -> string
  필요한 경우가 많다. 이럴땐 다음 함수를 쓰면 된다.
 
 ```ocaml
-module type String = sig
-  val split_on_char : char -> string -> stirng list
-end
+val String.split_on_char : char -> string -> stirng list
 ```
 
  즉, `String.split_on_char sep (read_line ())` 하면 한 줄을 읽어들인 다음 `sep`을
