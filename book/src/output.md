@@ -31,4 +31,4 @@ val print_newline : unit -> unit
 
 ### 예시
 
- [수 찾기](https://www.acmicpc.net/problem/1920) 문제의 경우 핵심 알고리즘 자체는 정렬 후 이분탐색을 하거나 해시 테이블을 이용해서 검색을 빠르게 할 수 있다. 문제는 출력인데, 조건에 따라 `M`의 크기가 \\( 1 \leq M \leq 100,000 \\) 이라서 최대 10만번의 출력을 해야한다. 이 경우 각 줄의 답을 `print_endline `으로 출력하면 [시간 초과](http://boj.kr/3595e7aea72f4404b2f9457d7463f0a5)가 뜨고, `print_string` 을 이용하면 [정답](http://boj.kr/163afb6ef1574f2f9e5aef070fc3b213)이 된다.
+ [수 찾기](https://www.acmicpc.net/problem/1920) 문제의 경우 핵심 알고리즘 자체는 정렬 후 이분탐색을 하거나 해시 테이블을 이용해서 검색을 빠르게 할 수 있다. 문제는 출력인데, 조건에 따라 `M`의 크기가 \\( 1 \leq M \leq 100,000 \\) 이라서 최대 10만번의 출력을 해야한다. 이 경우 각 줄의 답을 `print_endline` 으로 출력하면 [시간 초과](http://boj.kr/3595e7aea72f4404b2f9457d7463f0a5)가 뜨고, `print_string` 을 이용하면 [정답](http://boj.kr/163afb6ef1574f2f9e5aef070fc3b213)이 된다.
