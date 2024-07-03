@@ -13,3 +13,31 @@ type 'a node =
   | Cons of 'a * 'a t
 ```
  * 계산 완료된 리스트의 노드로, 비어있거나 하나의 원소와 지연된 꼬리를 담고 있다.
+
+## 기본 연산
+
+```ocaml
+val empty : 'a t
+
+val return : 'a -> 'a t
+
+val cons : 'a -> 'a t -> 'a t
+
+val append : 'a t -> 'a t -> 'a t
+
+val map : ('a -> 'b) -> 'a t -> 'b t
+
+val filter : ('a -> bool) -> 'a t -> 'a t
+
+val filter_map : ('a -> 'b option) -> 'a t -> 'b t
+
+val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b t -> 'a
+
+val iter : ('a -> unit) -> 'a t -> unit
+
+val unfold : ('b -> ('a * 'b) option) -> 'b -> 'a t
+```
+
+`return`을 제외한 나머지는 거진 다 리스트와 동일하다.
+
+`unfold`가 좀 특이한데, 어떤 스텝 함수와 초기값으로부터 시퀀스를 만드는 함수이다. `unfold f u`를 호출하면, `f u`가 `None`이면 `empty`를 리턴하고, `f u`가 `Some (x, y)` 이면 `Cons (x, unfold f y)`를 리턴한다.
