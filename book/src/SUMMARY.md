@@ -26,6 +26,8 @@
   * [Option](option.md)
   * [Monad](monad.md)
 * [Some Data Structures](some-data-structures.md)
+  * [Tree](tree.md)
   * [Disjoint Set](disjoint-set.md)
+  * [Priority Queue](priority-queue.md)
 * [Some Algorithms](some-algorithms.md)
   * [Bisect](bisect.md)
