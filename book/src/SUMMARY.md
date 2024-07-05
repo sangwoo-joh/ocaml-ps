@@ -25,5 +25,7 @@
   * [Functor](functor.md)
   * [Option](option.md)
   * [Monad](monad.md)
-* [Basic Algorithms](basic_algorithm.md)
+* [Some Data Structures](some-data-structures.md)
+  * [Disjoint Set](disjoint-set.md)
+* [Some Algorithms](some-algorithms.md)
   * [Bisect](bisect.md)
