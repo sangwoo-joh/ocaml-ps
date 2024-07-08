@@ -18,6 +18,7 @@
     * [HashedType](hashedtype.md)
     * [Hashtbl](hashtbl.md)
   * [Labels](labels.md)
+* [Garbage Collection](garbage-collection.md)
 * [Functional Approaches](functional-approaches.md)
   * [Pipelining](pipelining.md)
   * [Map, Filter, Fold](map-filter-fold.md)
