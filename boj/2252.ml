@@ -18,19 +18,23 @@ module Graph = struct
 
   let topo_order (t : t) =
     let visited = ref Edge.empty in
+    let visit x = visited := Edge.add x !visited in
+    let has_visited x = Edge.mem x !visited in
     let order = ref [] in
     let rec dfs x =
-      visited := Edge.add x !visited;
-      (match Hashtbl.find_opt t.graph x with
-       | None -> ()
-       | Some edges ->
-         Edge.iter
-           (fun n -> if not (Edge.mem n !visited) then dfs n else ())
-           edges);
+      visit x;
+      let bind x f =
+        match x with
+        | None -> ()
+        | Some x -> f x
+      in
+      let ( let* ) = bind in
+      let* edges = Hashtbl.find_opt t.graph x in
+      Edge.iter (fun n -> if not (has_visited n) then dfs n) edges;
       order := x :: !order
     in
     for node = 1 to t.size do
-      if not (Edge.mem node !visited) then dfs node
+      if not (has_visited node) then dfs node
     done;
     !order
   ;;
