@@ -29,8 +29,8 @@ module Graph = struct
         | Some x -> f x
       in
       let ( let* ) = bind in
-      let* edges = Hashtbl.find_opt t.graph x in
-      Edge.iter (fun n -> if not (has_visited n) then dfs n) edges;
+      (let* edges = Hashtbl.find_opt t.graph x in
+       Edge.iter (fun n -> if not (has_visited n) then dfs n) edges);
       order := x :: !order
     in
     for node = 1 to t.size do
