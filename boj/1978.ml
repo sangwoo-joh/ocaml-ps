@@ -3,16 +3,15 @@ let is_prime = Array.make 1001 true
 let sieve_eratosthenes () =
   is_prime.(0) <- false;
   is_prime.(1) <- false;
-  for x = 2 to 1000 do
-    if is_prime.(x)
+  let rec aux0 x order =
+    let f = x * order in
+    if f <= 1000
     then (
-      let order = ref 2 in
-      let f = ref (x * !order) in
-      while !f <= 1000 do
-        is_prime.(!f) <- false;
-        incr order;
-        f := x * !order
-      done)
+      is_prime.(f) <- false;
+      aux0 x (order + 1))
+  in
+  for x = 2 to 1000 do
+    if is_prime.(x) then aux0 x 2
   done
 ;;
 
