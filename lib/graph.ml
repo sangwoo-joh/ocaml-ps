@@ -40,7 +40,7 @@ end
 module NodeSet = HashSet.Make (Int)
 module NodeMap = Hashtbl.Make (Int)
 
-module Edge : Hashtbl.HashedType = struct
+module Edge = struct
   type t =
     { sink : node
     ; weight : int
