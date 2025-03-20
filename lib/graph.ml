@@ -61,9 +61,9 @@ type t =
   }
 
 let bfs
-      ?(visit_vertex_early = fun _node -> ())
-      ?(visit_vertex_late = fun _node -> ())
-      ?(visit_edge = fun _src _snk -> ())
+      ?(process_vertex_early = fun _node -> ())
+      ?(process_vertex_late = fun _node -> ())
+      ?(process_edge = fun _src _snk -> ())
       t
       (start : node)
   =
@@ -71,31 +71,31 @@ let bfs
   let discovered = NodeSet.create 16 in
   let discover (x : node) = NodeSet.add discovered x in
   let is_discovered x = NodeSet.mem discovered x in
-  let processed = NodeSet.create 16 in
-  let process x = NodeSet.add processed x in
-  let is_processed x = NodeSet.mem processed x in
+  let visited = NodeSet.create 16 in
+  let visit x = NodeSet.add visited x in
+  let is_visited x = NodeSet.mem visited x in
   let parent_info = NodeMap.create 16 in
   let born parent child = NodeMap.add parent_info child parent in
   Queue.add start node_queue;
   discover start;
   while not (Queue.is_empty node_queue) do
     let pioneer = Queue.take node_queue in
-    visit_vertex_early pioneer;
-    process pioneer;
+    process_vertex_early pioneer;
+    visit pioneer;
     (match Hashtbl.find_opt t.edges pioneer with
      | None -> ()
      | Some edges ->
        EdgeSet.iter
          (fun (edge: Edge.t) ->
-            if (not (is_processed edge.sink)) || t.directed
-            then visit_edge pioneer edge.sink;
+            if (not (is_visited edge.sink)) || t.directed
+            then process_edge pioneer edge.sink;
             if not (is_discovered edge.sink)
             then (
               Queue.add edge.sink node_queue;
               discover edge.sink;
               born pioneer edge.sink))
          edges);
-    visit_vertex_late pioneer
+    process_vertex_late pioneer
   done;
   parent_info
 ;;
